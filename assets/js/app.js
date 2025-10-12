@@ -62,6 +62,19 @@
       });
     }, { threshold: 0.5, rootMargin: '0px 0px -40% 0px' });
     sections.forEach(s => io.observe(s.el));
+
+    // Reveal animations
+    if (motionOK) {
+      const revealEls = Array.from(document.querySelectorAll('.reveal'));
+      const ro = new IntersectionObserver((ents) => {
+        ents.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+      revealEls.forEach(el => ro.observe(el));
+    }
   }
 
   // Parallax for hero blobs
