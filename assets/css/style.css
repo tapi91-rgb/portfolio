@@ -38,6 +38,7 @@ html[data-theme="light"] {
 html, body {
   height: 100%;
   background: var(--bg);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -156,6 +157,8 @@ a:hover { text-decoration-color: var(--accent); }
 }
 .nav-link:hover::after,
 .nav-link:focus-visible::after { transform: scaleX(1); }
+.nav-link.active { color: var(--accent); }
+.nav-link.active::after { transform: scaleX(1); }
 
 /* ====== Sections ====== */
 .section {
@@ -193,6 +196,14 @@ a:hover { text-decoration-color: var(--accent); }
   width: min(35vw, 460px);
   opacity: 0.3;
 }
+.hero-blob.blob-3 {
+  left: 50%;
+  bottom: -16%;
+  transform: translateX(-50%);
+  width: min(50vw, 560px);
+  opacity: 0.22;
+  filter: blur(8px) saturate(120%);
+}
 
 .hero-content {
   position: relative;
@@ -216,7 +227,24 @@ a:hover { text-decoration-color: var(--accent); }
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  align-items: center;
 }
+
+.hero-links {
+  display: inline-flex;
+  gap: 8px;
+}
+.icon-link {
+  display: inline-grid;
+  place-items: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  color: var(--text);
+  background: color-mix(in oklab, var(--surface), transparent 10%);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 55%);
+  transition: transform var(--speed-1), box-shadow var(--speed-1);
+}
+.icon-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-1); }
 
 /* ====== Buttons ====== */
 .btn {
@@ -231,6 +259,7 @@ a:hover { text-decoration-color: var(--accent); }
   transition: transform var(--speed-1), box-shadow var(--speed-1), background var(--speed-1), color var(--speed-1);
   will-change: transform;
 }
+.btn.small { padding: 8px 12px; font-size: 0.94rem; }
 .btn.primary {
   color: #06141f;
   background: linear-gradient(180deg, color-mix(in oklab, #ffffff, var(--accent) 20%), var(--accent));
@@ -286,6 +315,39 @@ a:hover { text-decoration-color: var(--accent); }
 }
 
 /* ====== Projects ====== */
+.repo-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.chip-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 50%);
+  background: color-mix(in oklab, var(--surface), transparent 8%);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform var(--speed-1), border-color var(--speed-1), background var(--speed-1);
+}
+.chip:hover { transform: translateY(-2px); border-color: color-mix(in oklab, var(--accent), transparent 50%); }
+.chip[aria-selected="true"] {
+  border-color: color-mix(in oklab, var(--accent), transparent 20%);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface), transparent 10%), color-mix(in oklab, var(--surface), transparent 0%));
+}
+
+.sort-group { display: inline-flex; gap: 8px; }
+
 .repo-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -353,6 +415,34 @@ a:hover { text-decoration-color: var(--accent); }
 }
 .fallback-list li { margin-bottom: 8px; }
 
+/* ====== Stack ====== */
+.stack {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+.stack-group dt {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.stack-group dd { margin: 0; }
+
+/* ====== Services ====== */
+.service-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2.2vw, 20px);
+}
+@media (max-width: 900px) {
+  .service-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .service-list { grid-template-columns: 1fr; }
+}
+
 /* ====== Contact ====== */
 .contact-grid {
   display: grid;
@@ -362,6 +452,32 @@ a:hover { text-decoration-color: var(--accent); }
 }
 .contact-item .label { color: var(--muted); margin-bottom: 4px; }
 .contact-actions { justify-self: end; }
+
+.contact-form {
+  margin-top: 18px;
+  padding: clamp(16px, 2.4vw, 22px);
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 55%);
+  background: var(--surface);
+  backdrop-filter: saturate(130%) blur(8px);
+  box-shadow: var(--shadow-1);
+}
+.contact-form .field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.contact-form label { color: var(--muted); font-weight: 600; }
+.contact-form input,
+.contact-form textarea {
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  padding: 10px 12px;
+  background: color-mix(in oklab, var(--surface), transparent 10%);
+  color: var(--text);
+}
+.contact-form .actions { display: flex; gap: 10px; align-items: center; }
+.form-note { color: var(--muted); margin-top: 8px; }
 
 /* ====== Footer ====== */
 .site-footer {
@@ -374,6 +490,31 @@ a:hover { text-decoration-color: var(--accent); }
   display: flex;
   gap: 16px;
   justify-content: space-between;
+}
+
+/* ====== Back to top ====== */
+.back-top {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 55%);
+  background: color-mix(in oklab, var(--surface), transparent 10%);
+  color: var(--text);
+  box-shadow: var(--shadow-1);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity var(--speed-1), transform var(--speed-1);
+  z-index: 40;
+}
+.back-top.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 /* ====== Cursor canvas ====== */
@@ -392,6 +533,7 @@ a:hover { text-decoration-color: var(--accent); }
 
 /* ====== Motion preferences ====== */
 @media (prefers-reduced-motion: reduce) {
+  html, body { scroll-behavior: auto; }
   .icon-btn,
   .btn,
   .card,

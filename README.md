@@ -38,18 +38,37 @@ No build step is required.
 
 ## Configuration
 
-- Theme is persisted via `localStorage` (`theme` key) and defaults to dark.
+- Theme is persisted via `localStorage` (`theme` key) and defaults to OS preference.
 - GitHub projects are fetched from:  
   `https://api.github.com/users/Farid-Masood-Khan/repos`
 - If the API fails (rate limit / offline), a small fallback list is shown.
 - The "Download CV" button links to `/assets/cv/Farid_Masood_CV.pdf`. Add your real CV file at that path.
 
+## Features
+
+- Dark/light theme toggle (persisted) with OS preference detection.
+- Animated hero with subtle parallax blobs and magnetic CTAs.
+- Dynamic Projects section:
+  - Fetches public repos via the GitHub REST API.
+  - Client-side cache (5 min) to reduce rate limits.
+  - Language filter chips and sort toggles (Updated / Stars).
+  - Graceful fallback list when offline or rate limited.
+- Stack section with chips (Languages, ML, Ops).
+- Services section with concise offerings.
+- Contact section:
+  - Email and WeChat details.
+  - Simple contact form that composes a mailto message.
+  - Copy WeChat ID button.
+- Accessibility: skip link, focus-visible, ARIA live regions, keyboard-friendly nav.
+- Performance: preconnect to GitHub API, lazy-loaded images, deferred JS.
+- UX: back-to-top button, active nav highlighting while scrolling, cursor micro-trail.
+
 ## Structure
 
 - `index.html`: Single page with semantic landmarks and accessibility features.
 - `assets/css/style.css`: Variables, layout, components, and animations (prefers-reduced-motion respected).
-- `assets/js/app.js`: Theme toggle, repo fetch, cursor micro-trail, magnetic buttons, and hero parallax.
-- `assets/img/`: Contains abstract blob SVGs and social preview image.
+- `assets/js/app.js`: Theme toggle, repo fetch + filters/sort, caching, cursor trail, magnetic buttons, hero parallax, nav highlighting, contact form, back-to-top.
+- `assets/img/`: Abstract blob SVGs and social preview image.
 - `assets/cv/Farid_Masood_CV.pdf`: Placeholder link (add your CV file here).
 
 ## Notes

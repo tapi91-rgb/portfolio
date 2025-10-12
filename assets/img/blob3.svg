@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="640" height="640">
+  <defs>
+    <radialGradient id="g3" cx="55%" cy="55%" r="60%">
+      <stop offset="0%" stop-color="#6cc0ff" stop-opacity="0.8"/>
+      <stop offset="55%" stop-color="#9e7bff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#9e7bff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft3" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+  <path d="M318 110c57 7 110 36 143 80s40 100 23 150c-17 51-59 93-107 113s-102 20-153 3c-51-18-96-58-116-108-20-49-13-111 24-152 37-40 102-59 186-86z" fill="url(#g3)" filter="url(#soft3)"/>
+</svg>
