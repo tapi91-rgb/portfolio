@@ -1,6 +1,6 @@
-# Farid Masood Khan — Developer Portfolio
+# Farid Masood Khan — Researcher • Developer • Builder
 
-A fast, accessible, single-page portfolio built with HTML, CSS, and vanilla JavaScript. Dark theme by default with glass layers, soft gradients, magnetic buttons, and a lightweight cursor trail.
+A fast, accessible, single-page portfolio built with HTML, CSS, and vanilla JavaScript. Dark/light theme, glass layers, smooth gradients, magnetic buttons, and a lightweight cursor trail.
 
 ## Local Development
 
@@ -46,29 +46,47 @@ No build step is required.
 
 ## Features
 
-- Dark/light theme toggle (persisted) with OS preference detection.
-- Animated hero with subtle parallax blobs and magnetic CTAs.
-- Dynamic Projects section:
+- Theme & UX
+  - Dark/light theme toggle (persisted) with OS preference detection.
+  - Animated hero with subtle parallax blobs and magnetic CTAs.
+  - Back-to-top button, active nav highlighting on scroll, smooth scrolling (respects motion preferences).
+
+- Projects
   - Fetches public repos via the GitHub REST API.
   - Client-side cache (5 min) to reduce rate limits.
   - Language filter chips and sort toggles (Updated / Stars).
   - Graceful fallback list when offline or rate limited.
-- Stack section with chips (Languages, ML, Ops).
-- Services section with concise offerings.
-- Contact section:
+
+- Apps (Flutter)
+  - Featured Flutter app cards for prototypes/starters/UI kits.
+
+- Research
+  - Research cards highlighting baselines and small, reproducible experiments.
+
+- Stack
+  - Languages: Python, JavaScript, SQL, Dart.
+  - ML: scikit-learn, PyTorch, TF-IDF, Linear SVM, OpenCV, YOLO.
+  - App Dev: Flutter, Firebase, REST, JSON.
+  - Ops: Git, CI, Docker, Linux.
+
+- Services
+  - Flutter app development, data science/ML, and research support.
+
+- Contact
   - Email and WeChat details.
   - Simple contact form that composes a mailto message.
   - Copy WeChat ID button.
-- Accessibility: skip link, focus-visible, ARIA live regions, keyboard-friendly nav.
-- Performance: preconnect to GitHub API, lazy-loaded images, deferred JS.
-- UX: back-to-top button, active nav highlighting while scrolling, cursor micro-trail.
+
+- Accessibility & Performance
+  - Skip link, focus-visible, ARIA live regions.
+  - Preconnect to GitHub API, lazy-loaded images, deferred JS.
 
 ## Structure
 
 - `index.html`: Single page with semantic landmarks and accessibility features.
 - `assets/css/style.css`: Variables, layout, components, and animations (prefers-reduced-motion respected).
 - `assets/js/app.js`: Theme toggle, repo fetch + filters/sort, caching, cursor trail, magnetic buttons, hero parallax, nav highlighting, contact form, back-to-top.
-- `assets/img/`: Abstract blob SVGs and social preview image.
+- `assets/img/`: Abstract blob SVGs and social preview image (og.png).
 - `assets/cv/Farid_Masood_CV.pdf`: Placeholder link (add your CV file here).
 
 ## Notes

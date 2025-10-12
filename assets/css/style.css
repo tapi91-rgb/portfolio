@@ -455,6 +455,35 @@ a:hover { text-decoration-color: var(--accent); }
 .faq-item dt { font-weight: 700; }
 .faq-item dd { margin: 0; color: var(--muted); }
 
+/* ====== Apps ====== */
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2.2vw, 20px);
+}
+@media (max-width: 900px) {
+  .apps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .apps-grid { grid-template-columns: 1fr; }
+}
+
+/* ====== Research ====== */
+.research-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2.2vw, 20px);
+}
+@media (max-width: 900px) {
+  .research-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .research-list { grid-template-columns: 1fr; }
+}
+
 /* ====== Reveal animation ====== */
 .reveal { opacity: 0; transform: translateY(8px); transition: opacity var(--speed-2), transform var(--speed-2); }
 .reveal.in-view { opacity: 1; transform: none; }
