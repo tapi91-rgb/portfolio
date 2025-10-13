@@ -1,13 +1,13 @@
-# Farid Masood Khan — Researcher • Developer • Builder
+# Farid Masood Khan — Researcher • Developer • Engineer
 
-A fast, accessible, single-page portfolio built with HTML, CSS, and vanilla JavaScript. Dark/light theme, glass layers, smooth gradients, magnetic buttons, and a lightweight cursor trail.
+A fast, accessible, single-page portfolio built with HTML, CSS, and vanilla JavaScript. Minimal, responsive UI with dark/light theme and clean sections inspired by 21st.dev.
 
 ## Local Development
 
 No build step is required.
 
 - Option 1: Open `index.html` directly in a modern browser.
-- Option 2: Serve locally (recommended for some APIs/features):
+- Option 2: Serve locally (recommended for API features):
 
   - Python:
     ```bash
@@ -23,89 +23,65 @@ No build step is required.
 
 ## Deploy to GitHub Pages
 
-1. Create a new repository on GitHub and push these files to the `main` branch.
-2. In your repository:
-   - Go to Settings → Pages.
-   - Under "Build and deployment", set:
-     - Source: Deploy from a branch
-     - Branch: `main` and folder: `/root`
-   - Save. GitHub Pages will publish your site at:
-     - `https://<username>.github.io/` for a special user site named `<username>.github.io`, or
-     - `https://<username>.github.io/<repo>` for a regular project repository.
-
-3. Update the canonical URL and any absolute links if needed:
-   - In `index.html`, `<link rel="canonical" href="...">` points to `https://farid-masood-khan.github.io/`. Change it if you deploy to a project URL.
+1. Push these files to the `main` branch of your repository.
+2. In your repo: Settings → Pages → Build and deployment
+   - Source: Deploy from a branch
+   - Branch: `main`, folder: `/root`
+3. The site will publish to:
+   - `https://<username>.github.io/` for a user site named `<username>.github.io`, or
+   - `https://<username>.github.io/<repo>` for a project site
+4. Update the canonical URL in `index.html` if needed.
 
 ## Configuration
 
-- Theme is persisted via `localStorage` (`theme` key) and defaults to OS preference.
-- GitHub projects are fetched from:  
+- Theme persists in `localStorage` and respects OS preference.
+- GitHub projects are fetched from:
   `https://api.github.com/users/Farid-Masood-Khan/repos`
-- If the API fails (rate limit / offline), a small fallback list is shown.
-- The "Download CV" button links to `/assets/cv/Farid_Masood_CV.pdf`. Add your real CV file at that path.
-- Highlights & Apps pins: edit `assets/data/pinned.json` to set exact repo links, titles, and descriptions.
-- Notes: add `.md` files in `assets/notes/` and list them in `assets/notes/index.json`.
-- WeChat QR: place an image at `assets/img/wechat_qr.png`. The \"Show WeChat QR\" button hides automatically if the image is not present.
+- If the API fails (rate limit/offline), a small fallback list is shown.
+- Download CV button links to `Farid_Masood_CV.pdf` in the repo root.
+- Highlights & Apps: edit `assets/data/pinned.json` to pin exact repos.
+- WeChat QR: place an image at `assets/img/wechat_qr.png`. The overlay falls back to your WeChat ID if the image is missing.
 
 ## Features
 
 - Theme & UX
-  - Dark/light theme toggle (persisted) with OS preference detection.
-  - Animated hero with subtle parallax blobs and magnetic CTAs.
-  - Back-to-top button, active nav highlighting on scroll, smooth scrolling (respects motion preferences).
-  - Teal/violet accent balance tuned for contrast (light/dark variants).
+  - Dark/light toggle with OS detection
+  - Clean hero, subtle reveal animations, back-to-top button
+  - Mobile: hamburger menu with glass panel and backdrop
+  - Desktop: inline navbar always visible
 
 - Projects
-  - Fetches public repos via the GitHub REST API.
-  - Client-side cache (5 min) to reduce rate limits.
-  - Language filter chips and sort toggles (Updated / Stars).
-  - Graceful fallback list when offline or rate limited.
+  - Fetches public repos via GitHub REST API
+  - Client cache (5 min) to reduce API calls
+  - Language filter chips, sort toggles (Updated/Stars)
+  - Graceful fallback list
 
 - Highlights & Apps (Pinned)
-  - Highlights and Apps are driven by `assets/data/pinned.json`.
-  - Cards render with icons/logos and external links.
-  - Update this JSON to pin precise repos as needed.
+  - Driven by `assets/data/pinned.json`
+  - Cards with concise titles, descriptions, and repo links
 
-- Notes (Markdown loader)
-  - Renders local `.md` files listed in `assets/notes/index.json`.
-  - Minimal Markdown parser (headings, code fences, paragraphs, lists).
-  - Each note shows an excerpt and toggles full content inline.
-
-- Research
-  - Research cards highlighting baselines and small, reproducible experiments.
-
-- Stack
-  - Languages: Python, JavaScript, SQL, Dart.
-  - ML: scikit-learn, PyTorch, TF-IDF, Linear SVM, OpenCV, YOLO.
-  - App Dev: Flutter, Firebase, REST, JSON.
-  - Ops: Git, CI, Docker, Linux.
-
-- Services
-  - Flutter app development, data science/ML, and research support.
+- Research, Skills, Services, About
+  - Clear, minimal sections emphasizing practical work, baselines, and apps
 
 - Contact
-  - Email and WeChat details.
-  - Simple contact form that composes a mailto message.
-  - Copy WeChat ID button.
-  - WeChat QR overlay panel (place your image at `assets/img/wechat_qr.png`).
-
-- Social
-  - Hero icons for GitHub, LinkedIn, and X (Twitter).
+  - Email and WeChat details
+  - Mailto form composer and copy WeChat ID button
+  - WeChat QR overlay (optional image)
 
 - Accessibility & Performance
-  - Skip link, focus-visible, ARIA live regions.
-  - Preconnect to GitHub API, lazy-loaded images, deferred JS.
+  - Skip link, focus-visible, ARIA live regions
+  - Preconnect to GitHub API and deferred JS
 
 ## Structure
 
-- `index.html`: Single page with semantic landmarks and accessibility features.
-- `assets/css/style.css`: Variables, layout, components, and animations (prefers-reduced-motion respected).
-- `assets/js/app.js`: Theme toggle, repo fetch + filters/sort, caching, cursor trail, magnetic buttons, hero parallax, nav highlighting, contact form, back-to-top.
-- `assets/img/`: Abstract blob SVGs and social preview image (og.png).
-- `assets/cv/Farid_Masood_CV.pdf`: Placeholder link (add your CV file here).
+- `index.html`: Semantic sections with accessible markup
+- `assets/css/style.css`: Variables, layout, components, reveal animations
+- `assets/js/app.js`: Theme toggle, nav (mobile/desktop), repo fetch + filters/sort, caching, pinned content, contact form, back-to-top
+- `assets/data/pinned.json`: Pinned Highlights and Apps configuration
+- `assets/img/`: Social preview image (og.png) and optional WeChat QR
+- `Farid_Masood_CV.pdf`: CV in repo root
 
 ## Notes
 
-- Performance: preconnects to GitHub API, lazy-loads images, and defers noncritical JS.
-- Accessibility: skip link, focus-visible, ARIA updates, keyboard-friendly navigation.
 - No frameworks or large libraries are used.
+- Keep `pinned.json` and repo metadata updated as you ship new work.

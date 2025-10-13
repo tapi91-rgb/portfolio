@@ -178,32 +178,7 @@ a:hover { text-decoration-color: var(--accent); }
     radial-gradient(1000px 480px at 85% 10%, color-mix(in oklab, var(--accent-2), transparent 85%), transparent 65%),
     linear-gradient(180deg, color-mix(in oklab, var(--bg), transparent 0%), var(--bg));
 }
-.hero-blob {
-  position: absolute;
-  right: -8%;
-  top: -12%;
-  width: min(40vw, 520px);
-  filter: blur(6px) saturate(120%);
-  opacity: 0.35;
-  transform: translateZ(0);
-  will-change: transform;
-}
-.hero-blob.blob-2 {
-  left: -12%;
-  bottom: -8%;
-  top: auto;
-  right: auto;
-  width: min(35vw, 460px);
-  opacity: 0.3;
-}
-.hero-blob.blob-3 {
-  left: 50%;
-  bottom: -16%;
-  transform: translateX(-50%);
-  width: min(50vw, 560px);
-  opacity: 0.22;
-  filter: blur(8px) saturate(120%);
-}
+
 
 .hero-content {
   position: relative;
@@ -273,8 +248,7 @@ a:hover { text-decoration-color: var(--accent); }
 }
 .btn.ghost:hover { transform: translateY(-2px); }
 
-/* Magnetic hover hint */
-.magnetic { position: relative; }
+
 
 /* ====== Glass panels ====== */
 .glass {
@@ -286,33 +260,7 @@ a:hover { text-decoration-color: var(--accent); }
   padding: clamp(18px, 2.6vw, 24px);
 }
 
-/* ====== Now Building ====== */
-.now-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
 
-.now-item .now-text { margin-bottom: 8px; }
-
-.progress {
-  position: relative;
-  height: 10px;
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--muted), transparent 80%);
-  overflow: clip;
-}
-.progress .bar {
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: var(--value);
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  border-radius: inherit;
-  box-shadow: 0 6px 14px color-mix(in oklab, var(--accent), transparent 80%);
-}
 
 /* ====== Projects ====== */
 .repo-controls {
@@ -537,38 +485,9 @@ a:hover { text-decoration-color: var(--accent); }
   .highlights-grid { grid-template-columns: 1fr; }
 }
 
-/* ====== Notes ====== */
-.notes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(12px, 2.2vw, 20px);
-}
-@media (max-width: 900px) {
-  .notes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 520px) {
-  .notes-grid { grid-template-columns: 1fr; }
-}
 
-/* Note viewer */
-.note-content { display: none; margin-top: 8px; color: var(--muted); }
-.note-card.open .note-content { display: block; }
 
-/* ====== Roadmap ====== */
-.roadmap-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(12px, 2.2vw, 20px);
-}
-@media (max-width: 900px) {
-  .roadmap-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 520px) {
-  .roadmap-grid { grid-template-columns: 1fr; }
-}
+
 
 /* ====== Reveal animation ====== */
 .reveal { opacity: 0; transform: translateY(8px); transition: opacity var(--speed-2), transform var(--speed-2); }
@@ -664,13 +583,7 @@ a:hover { text-decoration-color: var(--accent); }
   pointer-events: auto;
 }
 
-/* ====== Cursor canvas ====== */
-#cursor-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-}
+
 
 /* ====== Mobile Navigation ====== */
 .nav-backdrop {
@@ -756,6 +669,7 @@ body.menu-open {
 @media (min-width: 761px) {
   #menu-toggle { display: none; }
   .nav-backdrop { display: none; }
+  .site-nav { grid-template-columns: auto 36px 1fr; }
   .nav-list {
     display: flex !important;
     position: static !important;
