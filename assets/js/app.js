@@ -590,105 +590,7 @@
     });
   }
 
-  // Notes loader (local Markdown)
-  const notesGrid = document.getElementById('notes-grid');
-
-  async function loadNotes() {
-    if (!notesGrid) return;
-    let notes = [];
-    try {
-      const res = await fetch('assets/notes/index.json', { cache: 'no-store' });
-      if (!res.ok) throw new Error('notes index missing');
-      const data = await res.json();
-      notes = Array.isArray(data.notes) ? data.notes : [];
-    } catch {
-      notes = [
-        { title: 'Setup: Flutter + Firebase', file: 'setup_flutter.md' },
-        { title: 'DS/ML Baselines', file: 'dsml_baselines.md' },
-        { title: 'Portfolio UX decisions', file: 'portfolio_ux.md' }
-      ];
-    }
-
-    notesGrid.innerHTML = '';
-    for (const n of notes) {
-      try {
-        const fallbackMap = {
-          'setup_flutter.md': '# Flutter + Firebase setup\\n* Project structure, theming, and Firebase wiring.\\n* Add CI for builds and format/lint.\\n',
-          'dsml_baselines.md': '# DS/ML baselines\\n* Start with TF‑IDF+Linear SVM, Logistic Reg., RF.\\n* Keep deps minimal and pin versions.\\n',
-          'portfolio_ux.md': '# Portfolio UX\\n* Focus-visible, reduced motion, and responsive grids.\\n* Cache GitHub API; fallback lists.\\n'
-        };
-        let mdText = '';
-        try {
-          const mdRes = await fetch('assets/notes/' + n.file, { cache: 'no-store' });
-          mdText = mdRes.ok ? await mdRes.text() : '';
-        } catch {}
-        if (!mdText) mdText = fallbackMap[n.file] || 'Note content coming soon.';
-        const html = parseMarkdown(mdText);
-        const plain = mdText.replace(/[#>*`]/g, '').trim();
-        const excerpt = (plain.split('\\n').find(Boolean) || '').slice(0, 140);
-
-        const card = document.createElement('article');
-        card.className = 'card reveal note-card';
-        const contentId = 'note-' + Math.random().toString(36).slice(2, 8);
-        card.innerHTML = `
-          <div class="title">${escapeHTML(n.title)}</div>
-          <div class="desc">${escapeHTML(excerpt)}${plain.length > excerpt.length ? '…' : ''}</div>
-          <div id="${contentId}" class="note-content">${html}</div>
-          <div class="actions">
-            <button type="button" class="btn ghost">Read</button>
-          </div>
-        `;
-        const btn = card.querySelector('button');
-        btn?.addEventListener('click', () => {
-          card.classList.toggle('open');
-          btn.textContent = card.classList.contains('open') ? 'Hide' : 'Read';
-        });
-        notesGrid.appendChild(card);
-      } catch {
-        // skip invalid note
-      }
-    }
-  }
-
-  function parseMarkdown(md) {
-    // minimal markdown to HTML: headings, code blocks, paragraphs, lists
-    const lines = md.split(/\r?\n/);
-    let inCode = false;
-    let html = '';
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-
-      if (line.trim().startsWith('```')) {
-        if (!inCode) {
-          inCode = true;
-          html += '<pre><code>';
-        } else {
-          inCode = false;
-          html += '</code></pre>';
-        }
-        continue;
-      }
-      if (inCode) {
-        html += escapeHTML(line) + '\n';
-        continue;
-      }
-
-      if (/^\#\#\#\s+/.test(line)) {
-        html += '<h3>' + escapeHTML(line.replace(/^\#\#\#\s+/, '')) + '</h3>';
-      } else if (/^\#\#\s+/.test(line)) {
-        html += '<h2>' + escapeHTML(line.replace(/^\#\#\s+/, '')) + '</h2>';
-      } else if (/^\#\s+/.test(line)) {
-        html += '<h1>' + escapeHTML(line.replace(/^\#\s+/, '')) + '</h1>';
-      } else if (/^\*\s+/.test(line)) {
-        html += '<ul><li>' + escapeHTML(line.replace(/^\*\s+/, '')) + '</li></ul>';
-      } else if (line.trim() === '') {
-        html += '';
-      } else {
-        html += '<p>' + escapeHTML(line) + '</p>';
-      }
-    }
-    return html;
-  }
+  
 
   function pinnedIconSVG(name) {
     // minimal icons inline
@@ -707,6 +609,5 @@
 
   // Initialize dynamic sections
   loadPinned();
-  loadNotes();
   loadRepos();
 })();
