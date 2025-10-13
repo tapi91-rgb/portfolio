@@ -386,6 +386,24 @@ a:hover { text-decoration-color: var(--accent); }
   font-size: clamp(1.02rem, 1vw + 0.8rem, 1.3rem);
 }
 .card .title svg { vertical-align: middle; margin-right: 6px; }
+.card .title .inline-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  margin-right: 6px;
+}
+.card .title .inline-badge.python {
+  background: linear-gradient(135deg, #3776ab, #ffd343);
+  color: #101820;
+}
+.card .title .inline-badge.flutter {
+  background: linear-gradient(135deg, #027dfd, #42a5f5);
+}
 .card .desc { color: var(--muted); }
 .card .meta {
   display: flex; gap: 10px; color: var(--muted); align-items: center; flex-wrap: wrap;
