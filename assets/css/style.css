@@ -721,7 +721,7 @@ body.menu-open .nav-backdrop {
   .site-nav { grid-template-columns: auto 36px 36px auto; }
   .contact-grid { grid-template-columns: 1fr; }
 
-  /* Collapsible nav panel */
+  /* Collapsible nav panel (mobile) */
   .nav-list {
     position: fixed;
     top: 64px;
@@ -746,6 +746,19 @@ body.menu-open .nav-backdrop {
     pointer-events: auto;
   }
   .nav-link { padding: 10px 12px; }
+}
+
+/* Desktop overrides: always show inline nav and hide the hamburger */
+@media (min-width: 761px) {
+  #menu-toggle { display: none; }
+  .nav-backdrop { display: none; }
+  .nav-list {
+    display: flex !important;
+    position: static !important;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
 }
 
 /* ====== Motion preferences ====== */

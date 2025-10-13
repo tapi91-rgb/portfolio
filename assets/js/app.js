@@ -118,6 +118,19 @@
     if (a) setMenu(false);
   });
 
+  // Ensure menu state is correct when switching between mobile/desktop
+  const mql = window.matchMedia('(max-width: 760px)');
+  function handleViewportChange(e) {
+    if (!e.matches) {
+      // Leaving mobile -> desktop: force close overlay
+      setMenu(false);
+    }
+  }
+  if (mql.addEventListener) mql.addEventListener('change', handleViewportChange);
+  else if (mql.addListener) mql.addListener(handleViewportChange);
+  // Initialize state
+  handleViewportChange(mql);
+
   const blob1 = document.querySelector('.hero-blob');
   const blob2 = document.querySelector('.hero-blob.blob-2');
   const blob3 = document.querySelector('.hero-blob.blob-3');
