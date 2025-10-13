@@ -60,7 +60,7 @@
       else link.removeAttribute('aria-current');
     });
   }
-  setActive('#hero');
+  setActive('#overview');
   const sections = navLinks
     .map(l => {
       const sel = l.getAttribute('href');
@@ -104,7 +104,11 @@
     const active = open && isMobile;
     document.body.classList.toggle('menu-open', active);
     menuBtn?.setAttribute('aria-expanded', String(active));
-    navListEl?.setAttribute('aria-hidden', String(!active));
+    if (isMobile) {
+      navListEl?.setAttribute('aria-hidden', String(!active));
+    } else {
+      navListEl?.removeAttribute('aria-hidden');
+    }
   }
 
   menuBtn?.addEventListener('click', () => {

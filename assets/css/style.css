@@ -543,7 +543,7 @@ a:hover { text-decoration-color: var(--accent); }
   color: var(--text);
 }
 .contact-form .actions { display: flex; gap: 10px; align-items: center; }
-.form-note { color: var(--muted); margin-top: 8px; }
+
 
 /* ====== Footer ====== */
 .site-footer {
@@ -634,7 +634,7 @@ body.menu-open {
 
 /* ====== Responsive ====== */
 @media (max-width: 760px) {
-  .site-nav { grid-template-columns: auto 36px 36px auto; }
+  .site-nav { grid-template-columns: auto 36px 36px; }
   .contact-grid { grid-template-columns: 1fr; }
 
   /* Collapsible nav panel (mobile) */

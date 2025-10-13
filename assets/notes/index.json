@@ -1,7 +1,0 @@
-{
-  "notes": [
-    { "title": "Setup: Flutter + Firebase", "file": "setup_flutter.md" },
-    { "title": "DS/ML Baselines", "file": "dsml_baselines.md" },
-    { "title": "Portfolio UX decisions", "file": "portfolio_ux.md" }
-  ]
-}
