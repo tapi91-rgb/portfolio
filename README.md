@@ -43,6 +43,9 @@ No build step is required.
   `https://api.github.com/users/Farid-Masood-Khan/repos`
 - If the API fails (rate limit / offline), a small fallback list is shown.
 - The "Download CV" button links to `/assets/cv/Farid_Masood_CV.pdf`. Add your real CV file at that path.
+- Highlights & Apps pins: edit `assets/data/pinned.json` to set exact repo links, titles, and descriptions.
+- Notes: add `.md` files in `assets/notes/` and list them in `assets/notes/index.json`.
+- WeChat QR: place an image at `assets/img/wechat_qr.png`. The \"Show WeChat QR\" button hides automatically if the image is not present.
 
 ## Features
 
@@ -50,6 +53,7 @@ No build step is required.
   - Dark/light theme toggle (persisted) with OS preference detection.
   - Animated hero with subtle parallax blobs and magnetic CTAs.
   - Back-to-top button, active nav highlighting on scroll, smooth scrolling (respects motion preferences).
+  - Teal/violet accent balance tuned for contrast (light/dark variants).
 
 - Projects
   - Fetches public repos via the GitHub REST API.
@@ -57,8 +61,15 @@ No build step is required.
   - Language filter chips and sort toggles (Updated / Stars).
   - Graceful fallback list when offline or rate limited.
 
-- Apps (Flutter)
-  - Featured Flutter app cards for prototypes/starters/UI kits.
+- Highlights & Apps (Pinned)
+  - Highlights and Apps are driven by `assets/data/pinned.json`.
+  - Cards render with icons/logos and external links.
+  - Update this JSON to pin precise repos as needed.
+
+- Notes (Markdown loader)
+  - Renders local `.md` files listed in `assets/notes/index.json`.
+  - Minimal Markdown parser (headings, code fences, paragraphs, lists).
+  - Each note shows an excerpt and toggles full content inline.
 
 - Research
   - Research cards highlighting baselines and small, reproducible experiments.
@@ -76,6 +87,10 @@ No build step is required.
   - Email and WeChat details.
   - Simple contact form that composes a mailto message.
   - Copy WeChat ID button.
+  - WeChat QR overlay panel (place your image at `assets/img/wechat_qr.png`).
+
+- Social
+  - Hero icons for GitHub, LinkedIn, and X (Twitter).
 
 - Accessibility & Performance
   - Skip link, focus-visible, ARIA live regions.

@@ -4,8 +4,8 @@
   --surface: rgba(16, 22, 28, 0.6);
   --text: #e5edf5;
   --muted: #9fb0c1;
-  --accent: #6cc0ff; /* in teal/blue/violet range */
-  --accent-2: #9e7bff;
+  --accent: #45caff; /* balanced teal/blue */
+  --accent-2: #a27bff; /* complementary violet */
 
   --radius: 14px;
   --shadow-1: 0 10px 30px rgba(0,0,0,0.35);
@@ -24,8 +24,8 @@ html[data-theme="light"] {
   --surface: rgba(255, 255, 255, 0.7);
   --text: #0d1b26;
   --muted: #4b5a68;
-  --accent: #3aa3f9;
-  --accent-2: #7a5cf7;
+  --accent: #2da7f3;
+  --accent-2: #8a6af7;
 
   color-scheme: light;
 }
@@ -385,6 +385,7 @@ a:hover { text-decoration-color: var(--accent); }
   letter-spacing: -0.01em;
   font-size: clamp(1.02rem, 1vw + 0.8rem, 1.3rem);
 }
+.card .title svg { vertical-align: middle; margin-right: 6px; }
 .card .desc { color: var(--muted); }
 .card .meta {
   display: flex; gap: 10px; color: var(--muted); align-items: center; flex-wrap: wrap;
@@ -509,6 +510,10 @@ a:hover { text-decoration-color: var(--accent); }
 @media (max-width: 520px) {
   .notes-grid { grid-template-columns: 1fr; }
 }
+
+/* Note viewer */
+.note-content { display: none; margin-top: 8px; color: var(--muted); }
+.note-card.open .note-content { display: block; }
 
 /* ====== Roadmap ====== */
 .roadmap-grid {
@@ -641,6 +646,35 @@ a:hover { text-decoration-color: var(--accent); }
 body.menu-open .nav-backdrop {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* ====== WeChat QR Panel ====== */
+.qr-panel {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 70;
+}
+.qr-panel[hidden] { display: none; }
+.qr-inner {
+  background: var(--surface);
+  backdrop-filter: saturate(130%) blur(10px);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 55%);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-2);
+  padding: clamp(16px, 2.6vw, 24px);
+  width: min(92vw, 380px);
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+.qr-inner img {
+  width: min(80vw, 320px);
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
 }
 
 /* ====== Responsive ====== */

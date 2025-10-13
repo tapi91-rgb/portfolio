@@ -118,6 +118,7 @@
   navBackdrop?.addEventListener('click', () => setMenu(false));
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') setMenu(false);
+  });
 
   const blob1 = document.querySelector('.hero-blob');
   const blob2 = document.querySelector('.hero-blob.blob-2');
@@ -287,6 +288,33 @@
     } catch {
       contactStatus.textContent = 'Copy failed. ID: ' + text;
     }
+  });
+
+  // WeChat QR toggle
+  const showQRBtn = document.getElementById('show-wechat-qr');
+  const qrPanel = document.getElementById('wechat-qr-panel');
+  const qrImg = document.getElementById('wechat-qr-img');
+  const closeQRBtn = document.getElementById('close-wechat-qr');
+
+  // Hide show button if QR not available
+  (function checkQR() {
+    if (!showQRBtn || !qrImg) return;
+    try {
+      fetch(qrImg.src, { method: 'HEAD', cache: 'no-store' })
+        .then(res => {
+          if (!res.ok) showQRBtn.style.display = 'none';
+        })
+        .catch(() => { showQRBtn.style.display = 'none'; });
+    } catch {}
+  })();
+
+  showQRBtn?.addEventListener('click', () => {
+    qrPanel?.removeAttribute('hidden');
+    qrPanel?.setAttribute('aria-hidden', 'false');
+  });
+  closeQRBtn?.addEventListener('click', () => {
+    qrPanel?.setAttribute('hidden', '');
+    qrPanel?.setAttribute('aria-hidden', 'true');
   });
 
   // Fetch GitHub repos with caching, filters, sort
@@ -478,5 +506,157 @@
     return '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.998 3.5 9.41 9.14l-6.16.49 4.665 3.87-1.42 5.97 5.503-3.36 5.503 3.36-1.42-5.97 4.665-3.87-6.16-.49L11.998 3.5z"/></svg>';
   }
 
+  // Pinned Highlights & Apps
+  const highlightsGrid = document.getElementById('highlights-grid');
+  const appsGrid = document.getElementById('apps-grid');
+
+  async function loadPinned() {
+    try {
+      const res = await fetch('assets/data/pinned.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('pinned.json missing');
+      const data = await res.json();
+      renderPinned(data.highlights || [], highlightsGrid);
+      renderPinned(data.apps || [], appsGrid);
+    } catch {
+      const defaults = {
+        highlights: [
+          { title: 'Portfolio (this site)', desc: 'Accessible, fast, responsive.', url: 'https://github.com/Farid-Masood-Khan', icon: 'github' },
+          { title: 'IoT-IDS baselines', desc: 'Tabular ML baselines & pipelines.', url: 'https://github.com/Farid-Masood-Khan', icon: 'python' },
+          { title: 'THUCNews Linear SVM', desc: 'TF‑IDF + Linear SVM baseline.', url: 'https://github.com/Farid-Masood-Khan', icon: 'python' }
+        ],
+        apps: [
+          { title: 'Flutter Portfolio App', desc: 'Theming & modular widgets.', url: 'https://github.com/Farid-Masood-Khan', icon: 'flutter' },
+          { title: 'Flutter + Firebase Starter', desc: 'Auth, Firestore, CI.', url: 'https://github.com/Farid-Masood-Khan', icon: 'flutter' },
+          { title: 'Flutter UI Kit', desc: 'Reusable widgets & animations.', url: 'https://github.com/Farid-Masood-Khan', icon: 'flutter' }
+        ]
+      };
+      renderPinned(defaults.highlights, highlightsGrid);
+      renderPinned(defaults.apps, appsGrid);
+    }
+  }
+
+  function renderPinned(list, container) {
+    if (!container) return;
+    container.innerHTML = '';
+    list.forEach(item => {
+      const card = document.createElement('article');
+      card.className = 'card reveal';
+      card.innerHTML = `
+        <div class="title">${pinnedIconSVG(item.icon || 'github')}${escapeHTML(item.title)}</div>
+        <div class="desc">${escapeHTML(item.desc || '')}</div>
+        <div class="actions">
+          <a class="btn ghost" href="${item.url}" target="_blank" rel="noopener">View Repo</a>
+        </div>
+      `;
+      container.appendChild(card);
+      if (motionOK) requestAnimationFrame(() => card.classList.add('in-view'));
+    });
+  }
+
+  // Notes loader (local Markdown)
+  const notesGrid = document.getElementById('notes-grid');
+
+  async function loadNotes() {
+    if (!notesGrid) return;
+    let notes = [];
+    try {
+      const res = await fetch('assets/notes/index.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('notes index missing');
+      const data = await res.json();
+      notes = Array.isArray(data.notes) ? data.notes : [];
+    } catch {
+      notes = [
+        { title: 'Setup: Flutter + Firebase', file: 'setup_flutter.md' },
+        { title: 'DS/ML Baselines', file: 'dsml_baselines.md' },
+        { title: 'Portfolio UX decisions', file: 'portfolio_ux.md' }
+      ];
+    }
+
+    notesGrid.innerHTML = '';
+    for (const n of notes) {
+      try {
+        const mdRes = await fetch('assets/notes/' + n.file, { cache: 'no-store' });
+        const mdText = mdRes.ok ? await mdRes.text() : 'Note not available.';
+        const html = parseMarkdown(mdText);
+        const excerpt = (mdText.replace(/[#>*`]/g, '').trim().split('\\n').find(Boolean) || '').slice(0, 140);
+
+        const card = document.createElement('article');
+        card.className = 'card reveal note-card';
+        const contentId = 'note-' + Math.random().toString(36).slice(2, 8);
+        card.innerHTML = `
+          <div class="title">${escapeHTML(n.title)}</div>
+          <div class="desc">${escapeHTML(excerpt)}${mdText.length > excerpt.length ? '…' : ''}</div>
+          <div id="${contentId}" class="note-content">${html}</div>
+          <div class="actions">
+            <button type="button" class="btn ghost">Read</button>
+          </div>
+        `;
+        const btn = card.querySelector('button');
+        btn?.addEventListener('click', () => {
+          card.classList.toggle('open');
+          btn.textContent = card.classList.contains('open') ? 'Hide' : 'Read';
+        });
+        notesGrid.appendChild(card);
+      } catch {
+        // skip invalid note
+      }
+    }
+  }
+
+  function parseMarkdown(md) {
+    // minimal markdown to HTML: headings, code blocks, paragraphs, lists
+    const lines = md.split(/\r?\n/);
+    let inCode = false;
+    let html = '';
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+
+      if (line.trim().startsWith('```')) {
+        if (!inCode) {
+          inCode = true;
+          html += '<pre><code>';
+        } else {
+          inCode = false;
+          html += '</code></pre>';
+        }
+        continue;
+      }
+      if (inCode) {
+        html += escapeHTML(line) + '\n';
+        continue;
+      }
+
+      if (/^\#\#\#\s+/.test(line)) {
+        html += '<h3>' + escapeHTML(line.replace(/^\#\#\#\s+/, '')) + '</h3>';
+      } else if (/^\#\#\s+/.test(line)) {
+        html += '<h2>' + escapeHTML(line.replace(/^\#\#\s+/, '')) + '</h2>';
+      } else if (/^\#\s+/.test(line)) {
+        html += '<h1>' + escapeHTML(line.replace(/^\#\s+/, '')) + '</h1>';
+      } else if (/^\*\s+/.test(line)) {
+        html += '<ul><li>' + escapeHTML(line.replace(/^\*\s+/, '')) + '</li></ul>';
+      } else if (line.trim() === '') {
+        html += '';
+      } else {
+        html += '<p>' + escapeHTML(line) + '</p>';
+      }
+    }
+    return html;
+  }
+
+  function pinnedIconSVG(name) {
+    // minimal icons inline
+    if (name === 'github') {
+      return '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="margin-right:6px;"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.35-1.75-1.35-1.75-1.1-.75.08-.73.08-.73 1.21.09 1.85 1.25 1.85 1.25 1.08 1.85 2.82 1.32 3.51 1.01.11-.79.42-1.32.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.39 1.25-3.24-.13-.3-.54-1.52.12-3.17 0 0 1-.32 3.28 1.24a11.4 11.4 0 0 1 5.97 0c2.28-1.56 3.28-1.24 3.28-1.24.66 1.65.25 2.87.12 3.17.78.85 1.25 1.93 1.25 3.24 0 4.61-2.82 5.62-5.5 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .5Z"/></svg>';
+    }
+    // fallback simple star
+    return starSVG();
+  }
+    }
+    return html;
+  }
+
+  // Initialize dynamic sections
+  loadPinned();
+  loadNotes();
   loadRepos();
 })();

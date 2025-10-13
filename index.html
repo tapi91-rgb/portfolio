@@ -91,6 +91,12 @@
             <a class="icon-link" href="mailto:faridmasoodofficial@gmail.com" aria-label="Email Farid">
               <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/></svg>
             </a>
+            <a class="icon-link" href="https://www.linkedin.com/in/farid-masood-khan/" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+              <span aria-hidden="true" style="font-weight:700">in</span>
+            </a>
+            <a class="icon-link" href="https://x.com/FaridMasoodKhan" target="_blank" rel="noopener" aria-label="X (Twitter) profile">
+              <span aria-hidden="true" style="font-weight:700">X</span>
+            </a>
           </div>
         </div>
       </div>
@@ -202,29 +208,7 @@
     <section id="highlights" class="section" aria-labelledby="highlights-title">
       <div class="container">
         <h2 id="highlights-title">Highlights</h2>
-        <div class="highlights-grid">
-          <article class="card reveal">
-            <div class="title">Portfolio design system</div>
-            <div class="desc">Consistent components, glass surfaces, gradients, and accessibility.</div>
-            <div class="actions">
-              <a class="btn ghost" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">View Repo</a>
-            </div>
-          </article>
-          <article class="card reveal">
-            <div class="title">Flutter + Firebase starter</div>
-            <div class="desc">Auth, Firestore, CI, and modular widgets for rapid prototyping.</div>
-            <div class="actions">
-              <a class="btn ghost" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">View Repo</a>
-            </div>
-          </article>
-          <article class="card reveal">
-            <div class="title">IoT/SDN baseline toolkit</div>
-            <div class="desc">Lightweight tabular ML baselines with reproducible pipelines.</div>
-            <div class="actions">
-              <a class="btn ghost" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">View Repo</a>
-            </div>
-          </article>
-        </div>
+        <div id="highlights-grid" class="highlights-grid"></div>
       </div>
     </section>
 
@@ -273,29 +257,7 @@
     <section id="apps" class="section" aria-labelledby="apps-title">
       <div class="container">
         <h2 id="apps-title">Featured Apps (Flutter)</h2>
-        <div class="apps-grid">
-          <article class="card reveal">
-            <div class="title">Flutter Portfolio App</div>
-            <div class="desc">Mobile portfolio with clean theming and modular widgets.</div>
-            <div class="actions">
-              <a class="btn ghost" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">View Repo</a>
-            </div>
-          </article>
-          <article class="card reveal">
-            <div class="title">Flutter + Firebase Starter</div>
-            <div class="desc">Auth, Firestore, and CI set up for rapid prototyping.</div>
-            <div class="actions">
-              <a class="btn ghost" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">View Repo</a>
-            </div>
-          </article>
-          <article class="card reveal">
-            <div class="title">Flutter UI Kit</div>
-            <div class="desc">Reusable widgets, animations, and layout components.</div>
-            <div class="actions">
-              <a class="btn ghost" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">View Repo</a>
-            </div>
-          </article>
-        </div>
+        <div id="apps-grid" class="apps-grid"></div>
       </div>
     </section>
 
@@ -441,29 +403,7 @@
     <section id="notes" class="section" aria-labelledby="notes-title">
       <div class="container glass">
         <h2 id="notes-title">Notes</h2>
-        <div class="notes-grid">
-          <article class="card reveal">
-            <div class="title">Setup: Flutter + Firebase</div>
-            <div class="desc">Base project structure, auth wiring, and CI suggestions.</div>
-            <div class="actions">
-              <a class="btn ghost" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">Read</a>
-            </div>
-          </article>
-          <article class="card reveal">
-            <div class="title">DS/ML Baselines</div>
-            <div class="desc">Choosing simple baselines and making pipelines reproducible.</div>
-            <div class="actions">
-              <a class="btn ghost" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">Read</a>
-            </div>
-          </article>
-          <article class="card reveal">
-            <div class="title">Portfolio UX decisions</div>
-            <div class="desc">Accessibility, performance, and responsive layout trade-offs.</div>
-            <div class="actions">
-              <a class="btn ghost" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">Read</a>
-            </div>
-          </article>
-        </div>
+        <div id="notes-grid" class="notes-grid"></div>
       </div>
     </section>
 
@@ -497,10 +437,19 @@
           <div class="actions">
             <button type="submit" class="btn primary magnetic">Compose Email</button>
             <button type="button" id="copy-wechat" class="btn ghost">Copy WeChat ID</button>
+            <button type="button" id="show-wechat-qr" class="btn ghost">Show WeChat QR</button>
           </div>
           <p id="form-note" class="form-note">No backend; this opens your email client.</p>
           <div id="contact-status" class="sr" aria-live="polite"></div>
         </form>
+
+        <!-- WeChat QR Panel -->
+        <div id="wechat-qr-panel" class="qr-panel" hidden aria-hidden="true">
+          <div class="qr-inner">
+            <img id="wechat-qr-img" src="assets/img/wechat_qr.png" alt="WeChat QR code" />
+            <button type="button" id="close-wechat-qr" class="btn small ghost">Close</button>
+          </div>
+        </div>
       </div>
     </section>
   </main>
