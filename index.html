@@ -53,7 +53,11 @@
         <span class="visually-hidden">Toggle theme</span>
         <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1Zm0 14a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1Zm9-5a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1ZM6 12a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1Zm11.657-7.657a1 1 0 0 1 1.414 1.414l-1.414 1.414a1 1 0 1 1-1.414-1.414l1.414-1.414ZM6.343 17.657a1 1 0 0 1 0 1.414l-1.414 1.414a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 0 1 1.414 0ZM9.171 4.929a1 1 0 0 1 0 1.414L7.757 7.757A1 1 0 0 1 6.343 6.343L7.757 4.93a1 1 0 0 1 1.414 0Z" fill="currentColor"/></svg>
       </button>
-      <ul class="nav-list">
+      <button id="menu-toggle" class="icon-btn" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav" title="Open menu">
+        <span class="visually-hidden">Open menu</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 6h16a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2Zm0 5h16a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2Zm0 5h16a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2Z"/></svg>
+      </button>
+      <ul class="nav-list" id="primary-nav">
         <li><a href="#now" class="nav-link">Now</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#apps" class="nav-link">Apps</a></li>
@@ -67,6 +71,7 @@
       </ul>
     </nav>
   </header>
+  <div id="nav-backdrop" class="nav-backdrop" aria-hidden="true"></div>
 
   <main id="main">
     <!-- Hero -->
@@ -116,6 +121,27 @@
             <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" aria-label="UAV detection progress">
               <span class="bar" style="--value: 30%"></span>
             </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section id="roadmap" class="section" aria-labelledby="roadmap-title">
+      <div class="container glass">
+        <h2 id="roadmap-title">Roadmap</h2>
+        <ul class="roadmap-grid">
+          <li class="card reveal">
+            <div class="title">Step 1 — Portfolio</div>
+            <div class="desc">Polished, accessible portfolio with clear focus and contact.</div>
+          </li>
+          <li class="card reveal">
+            <div class="title">Step 2 — Projects</div>
+            <div class="desc">Build Flutter apps and Python DS/ML repos with clean docs and tests.</div>
+          </li>
+          <li class="card reveal">
+            <div class="title">Step 3 — Research</div>
+            <div class="desc">Write up baselines and experiments; publish small, reproducible papers.</div>
           </li>
         </ul>
       </div>

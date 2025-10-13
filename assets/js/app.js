@@ -77,7 +77,25 @@
     }
   }
 
-  // Parallax for hero blobs
+  // Mobile navigation (hamburger)
+  const menuBtn = document.getElementById('menu-toggle');
+  const navListEl = document.getElementById('primary-nav');
+  const navBackdrop = document.getElementById('nav-backdrop');
+
+  function setMenu(open) {
+    document.body.classList.toggle('menu-open', open);
+    menuBtn?.setAttribute('aria-expanded', String(open));
+  }
+
+  menuBtn?.addEventListener('click', () => {
+    const next = !document.body.classList.contains('menu-open');
+    setMenu(next);
+  });
+
+  navBackdrop?.addEventListener('click', () => setMenu(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false);
+
   const blob1 = document.querySelector('.hero-blob');
   const blob2 = document.querySelector('.hero-blob.blob-2');
   const blob3 = document.querySelector('.hero-blob.blob-3');
