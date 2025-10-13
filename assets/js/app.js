@@ -100,8 +100,11 @@
   const navBackdrop = document.getElementById('nav-backdrop');
 
   function setMenu(open) {
-    document.body.classList.toggle('menu-open', open);
-    menuBtn?.setAttribute('aria-expanded', String(open));
+    const isMobile = window.matchMedia('(max-width: 760px)').matches;
+    const active = open && isMobile;
+    document.body.classList.toggle('menu-open', active);
+    menuBtn?.setAttribute('aria-expanded', String(active));
+    navListEl?.setAttribute('aria-hidden', String(!active));
   }
 
   menuBtn?.addEventListener('click', () => {
