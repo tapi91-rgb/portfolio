@@ -23,6 +23,29 @@
     setTheme(next);
   });
 
+  // Ensure CV link works (fallback to mailto if file missing)
+  const cvLink = document.getElementById('cv-link');
+  if (cvLink) {
+    const href = cvLink.getAttribute('href') || '';
+    try {
+      fetch(href, { method: 'HEAD', cache: 'no-store' })
+        .then((res) => {
+          if (!res.ok) throw new Error('CV not found');
+        })
+        .catch(() => {
+          const mail = 'mailto:faridmasoodofficial@gmail.com?subject=' + encodeURIComponent('Request CV');
+          cvLink.setAttribute('href', mail);
+          cvLink.removeAttribute('download');
+          cvLink.textContent = 'Request CV';
+        });
+    } catch {
+      const mail = 'mailto:faridmasoodofficial@gmail.com?subject=' + encodeURIComponent('Request CV');
+      cvLink.setAttribute('href', mail);
+      cvLink.removeAttribute('download');
+      cvLink.textContent = 'Request CV';
+    }
+  }
+
   // Update footer dates
   const now = new Date();
   const lastUpdatedEl = document.getElementById('last-updated');
