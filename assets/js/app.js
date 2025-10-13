@@ -46,15 +46,9 @@
     }
   }
 
-  // Update footer dates
-  const now = new Date();
-  const lastUpdatedEl = document.getElementById('last-updated');
+  // Footer year only
   const copyrightYearEl = document.getElementById('copyright-year');
-  if (lastUpdatedEl) {
-    lastUpdatedEl.textContent = now.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-    lastUpdatedEl.setAttribute('datetime', now.toISOString().split('T')[0]);
-  }
-  if (copyrightYearEl) copyrightYearEl.textContent = now.getFullYear();
+  if (copyrightYearEl) copyrightYearEl.textContent = new Date().getFullYear();
 
   // Nav active highlighting
   const navLinks = Array.from(document.querySelectorAll('.nav-link'));
@@ -300,21 +294,30 @@
   const qrImg = document.getElementById('wechat-qr-img');
   const closeQRBtn = document.getElementById('close-wechat-qr');
 
-  // Hide show button if QR not available
-  (function checkQR() {
-    if (!showQRBtn || !qrImg) return;
-    try {
-      fetch(qrImg.src, { method: 'HEAD', cache: 'no-store' })
-        .then(res => {
-          if (!res.ok) showQRBtn.style.display = 'none';
-        })
-        .catch(() => { showQRBtn.style.display = 'none'; });
-    } catch {}
-  })();
+  function ensureQrFallback() {
+    if (!qrPanel) return;
+    const inner = qrPanel.querySelector('.qr-inner');
+    if (!inner) return;
+    if (!inner.querySelector('.qr-msg')) {
+      const p = document.createElement('p');
+      p.className = 'qr-msg';
+      const idText = wechatEl?.textContent || 'faridmasood1';
+      p.textContent = 'QR not available. Add assets/img/wechat_qr.png or use WeChat ID: ' + idText;
+      p.style.color = 'var(--muted)';
+      p.style.textAlign = 'center';
+      inner.appendChild(p);
+    }
+  }
+
+  qrImg?.addEventListener('error', ensureQrFallback);
 
   showQRBtn?.addEventListener('click', () => {
     qrPanel?.removeAttribute('hidden');
     qrPanel?.setAttribute('aria-hidden', 'false');
+    if (!qrImg || !qrImg.complete) {
+      // If image missing or not loaded, set fallback message
+      ensureQrFallback();
+    }
   });
   closeQRBtn?.addEventListener('click', () => {
     qrPanel?.setAttribute('hidden', '');
@@ -426,12 +429,17 @@
     });
   }
 
-  function applyRepoView() {
+  async function applyRepoView() {
     let list = allRepos.slice();
     if (currentLang !== 'All') {
       list = list.filter(r => (r.language || '—') === currentLang);
     }
     list = sortRepos(list);
+    if (!list.length) {
+      await renderPinnedReposFromJson();
+      status.textContent = 'Showing featured repositories.';
+      return;
+    }
     renderRepos(list.slice(0, 6));
     const count = Math.min(6, list.length);
     status.textContent = `Showing ${count} repositories · Sort: ${currentSort} · Filter: ${currentLang}`;
@@ -472,6 +480,30 @@
     }
   }
 
+  async function renderPinnedReposFromJson() {
+    if (!grid) return;
+    try {
+      const res = await fetch('assets/data/pinned.json', { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        const combined = [...(data.highlights || []), ...(data.apps || [])];
+        const repos = combined.slice(0, 6).map(it => ({
+          name: it.title || 'Project',
+          description: it.desc || '',
+          language: it.icon === 'flutter' ? 'Dart' : 'Python',
+          html_url: it.url || 'https://github.com/Farid-Masood-Khan',
+          stargazers_count: 0,
+          pushed_at: new Date().toISOString(),
+          fork: false
+        }));
+        renderRepos(repos);
+        return;
+      }
+    } catch {}
+    // fallback to static basic list
+    renderFallback();
+  }
+
   function renderFallback() {
     fallback?.removeAttribute('hidden');
     if (!grid) return;
@@ -497,7 +529,8 @@
     ];
     allRepos = fallbackRepos.map(r => ({ ...r, stargazers_count: 0, pushed_at: new Date().toISOString(), fork: false }));
     buildControls();
-    applyRepoView();
+    // directly render without applying filters to ensure we show content even if filters empty
+    renderRepos(allRepos.slice(0, 6));
   }
 
   function escapeHTML(s) {
@@ -579,17 +612,27 @@
     notesGrid.innerHTML = '';
     for (const n of notes) {
       try {
-        const mdRes = await fetch('assets/notes/' + n.file, { cache: 'no-store' });
-        const mdText = mdRes.ok ? await mdRes.text() : 'Note not available.';
+        const fallbackMap = {
+          'setup_flutter.md': '# Flutter + Firebase setup\\n* Project structure, theming, and Firebase wiring.\\n* Add CI for builds and format/lint.\\n',
+          'dsml_baselines.md': '# DS/ML baselines\\n* Start with TF‑IDF+Linear SVM, Logistic Reg., RF.\\n* Keep deps minimal and pin versions.\\n',
+          'portfolio_ux.md': '# Portfolio UX\\n* Focus-visible, reduced motion, and responsive grids.\\n* Cache GitHub API; fallback lists.\\n'
+        };
+        let mdText = '';
+        try {
+          const mdRes = await fetch('assets/notes/' + n.file, { cache: 'no-store' });
+          mdText = mdRes.ok ? await mdRes.text() : '';
+        } catch {}
+        if (!mdText) mdText = fallbackMap[n.file] || 'Note content coming soon.';
         const html = parseMarkdown(mdText);
-        const excerpt = (mdText.replace(/[#>*`]/g, '').trim().split('\\n').find(Boolean) || '').slice(0, 140);
+        const plain = mdText.replace(/[#>*`]/g, '').trim();
+        const excerpt = (plain.split('\\n').find(Boolean) || '').slice(0, 140);
 
         const card = document.createElement('article');
         card.className = 'card reveal note-card';
         const contentId = 'note-' + Math.random().toString(36).slice(2, 8);
         card.innerHTML = `
           <div class="title">${escapeHTML(n.title)}</div>
-          <div class="desc">${escapeHTML(excerpt)}${mdText.length > excerpt.length ? '…' : ''}</div>
+          <div class="desc">${escapeHTML(excerpt)}${plain.length > excerpt.length ? '…' : ''}</div>
           <div id="${contentId}" class="note-content">${html}</div>
           <div class="actions">
             <button type="button" class="btn ghost">Read</button>
@@ -660,9 +703,6 @@
     }
     // fallback simple star
     return starSVG();
-  }
-    }
-    return html;
   }
 
   // Initialize dynamic sections
