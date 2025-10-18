@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { Modal } from '@/components/modal';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 type Repo = {
   name: string;
@@ -15,9 +17,12 @@ type Repo = {
 export function RepoCard({ repo }: { repo: Repo }) {
   const [open, setOpen] = useState(false);
   const [readme, setReadme] = useState<string>('Loading README…');
+  const [topics, setTopics] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   async function loadReadme() {
     setOpen(true);
+    setLoading(true);
     try {
       const res = await fetch(`https://api.github.com/repos/Farid-Masood-Khan/${repo.name}/readme`, {
         headers: { 'Accept': 'application/vnd.github+json' },
@@ -29,7 +34,20 @@ export function RepoCard({ repo }: { repo: Repo }) {
       setReadme(text || 'No README content.');
     } catch {
       setReadme('Unable to load README (rate limit). Try opening the repo.');
+    } finally {
+      setLoading(false);
     }
+    // Try to load topics (best-effort, ignore errors)
+    try {
+      const res2 = await fetch(`https://api.github.com/repos/Farid-Masood-Khan/${repo.name}/topics`, {
+        headers: { 'Accept': 'application/vnd.github+json' },
+        cache: 'no-store'
+      });
+      if (res2.ok) {
+        const t = await res2.json();
+        setTopics(Array.isArray(t.names) ? t.names : []);
+      }
+    } catch {}
   }
 
   return (
@@ -48,8 +66,23 @@ export function RepoCard({ repo }: { repo: Repo }) {
         </div>
       </article>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <h3 className="text-xl font-bold mb-2">README — {repo.name}</h3>
-        <pre className="overflow-auto max-h-[50vh] whitespace-pre-wrap text-sm">{readme}</pre>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-xl font-bold">README — {repo.name}</h3>
+          <div className="hidden md:flex gap-2">
+            {topics.map(t => <span key={t} className="px-2 py-1 rounded-full border border-muted/40 bg-surface/60 text-sm">{t}</span>)}
+          </div>
+        </div>
+        {loading ? (
+          <div className="grid gap-2">
+            <div className="h-6 w-1/2 bg-surface/50 rounded" />
+            <div className="h-4 w-3/4 bg-surface/50 rounded" />
+            <div className="h-4 w-2/3 bg-surface/50 rounded" />
+          </div>
+        ) : (
+          <div className="overflow-auto max-h-[60vh] markdown">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{readme}</ReactMarkdown>
+          </div>
+        )}
       </Modal>
     </>
   );
