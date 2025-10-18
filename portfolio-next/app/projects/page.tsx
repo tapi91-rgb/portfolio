@@ -48,7 +48,15 @@ export default function ProjectsPage() {
       <h2 className="text-2xl font-bold mb-2">Projects</h2>
       <p className="text-muted mb-4">{status}</p>
       <div className="grid md:grid-cols-3 gap-3">
-        {repos.map(r => <RepoCard key={r.name} repo={r} />)}
+        {repos.length === 0
+          ? Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="panel p-4 animate-pulse">
+                <div className="h-6 w-1/2 bg-surface/50 rounded mb-2" />
+                <div className="h-4 w-3/4 bg-surface/50 rounded mb-2" />
+                <div className="h-4 w-2/3 bg-surface/50 rounded" />
+              </div>
+            ))
+          : repos.map(r => <RepoCard key={r.name} repo={r} />)}
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   applicationName: 'Portfolio',
   generator: 'Next.js 14',
   icons: [{ rel: 'icon', url: '/favicon.svg' }],
+  manifest: '/site.webmanifest',
   openGraph: {
     title: 'Muhammad Farid Masood Khan — Portfolio',
     description: 'AI/ML/NLP/Flutter/full‑stack.',

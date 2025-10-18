@@ -7,6 +7,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
+  const [dockLeft, setDockLeft] = useState(false);
   const [busy, setBusy] = useState(false);
   const [messages, setMessages] = useState<{role:'user'|'ai', text:string}[]>([]);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -69,7 +70,7 @@ export function ChatWidget() {
   }
 
   return (
-    <div className="fixed right-4 bottom-20 z-40">
+    <div className={`fixed ${dockLeft ? 'left-4' : 'right-4'} bottom-20 z-40`}>
       {!open && (
         <button
           onClick={() => setOpen(true)}
@@ -83,9 +84,19 @@ export function ChatWidget() {
         <div className="panel w-[min(92vw,380px)] p-3">
           <div className="flex items-center justify-between">
             <strong>AI Assistant</strong>
-            <button className="p-2 rounded-xl border border-muted/40 bg-surface/60" onClick={() => setOpen(false)} aria-label="Close">
-              <X size={18} />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                className="p-2 rounded-xl border border-muted/40 bg-surface/60"
+                onClick={() => setDockLeft(v => !v)}
+                aria-label="Dock side"
+                title="Dock left/right"
+              >
+                {dockLeft ? '↘' : '↙'}
+              </button>
+              <button className="p-2 rounded-xl border border-muted/40 bg-surface/60" onClick={() => setOpen(false)} aria-label="Close">
+                <X size={18} />
+              </button>
+            </div>
           </div>
           <div className="grid gap-2 max-h-[240px] overflow-y-auto mt-2">
             {messages.map((m, i) => (
