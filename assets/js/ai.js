@@ -58,13 +58,98 @@
     return base;
   }
 
+  // OpenAI streaming integration (client-side BYO key)
+  function getKey() { try { return localStorage.getItem('openai_key') || ''; } catch { return ''; } }
+  function getModel() { try { return localStorage.getItem('openai_model') || 'gpt-4o-mini'; } catch { return 'gpt-4o-mini'; } }
+  function getProxyUrl() { try { return localStorage.getItem('openai_proxy') || ''; } catch { return ''; } }
+
+  async function streamAssistant(prompt) {
+    const key = getKey();
+    const model = getModel();
+    const sys = 'You are Farid’s portfolio assistant. Be concise, helpful, and practical.';
+    try {
+      const proxy = getProxyUrl();
+      let res;
+      if (proxy) {
+        res = await fetch(proxy, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, model })
+        });
+      } else {
+        res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + key
+          },
+          body: JSON.stringify({
+            model,
+            stream: true,
+            temperature: 0.2,
+            messages: [
+              { role: 'system', content: sys },
+              { role: 'user', content: prompt }
+            ]
+          })
+        });
+      }
+      if (!res.ok || !res.body) {
+        addMessage('ai', 'OpenAI error. Check key/model or try again.');
+        return;
+      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+
+      // create a streaming message bubble
+      const msg = document.createElement('div');
+      msg.className = 'ai-msg ai';
+      const p = document.createElement('p');
+      p.className = 'ai-text';
+      msg.appendChild(p);
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+
+      let done = false;
+      while (!done) {
+        const { value, done: readerDone } = await reader.read();
+        done = readerDone;
+        if (value) {
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n');
+          for (const line of lines) {
+            const s = line.trim();
+            if (!s || !s.startsWith('data:')) continue;
+            const data = s.slice(5).trim();
+            if (data === '[DONE]') { done = true; break; }
+            try {
+              const json = JSON.parse(data);
+              const delta = json.choices?.[0]?.delta?.content || '';
+              if (delta) {
+                p.textContent += delta;
+                messages.scrollTop = messages.scrollHeight;
+              }
+            } catch {}
+          }
+        }
+      }
+    } catch {
+      addMessage('ai', 'Network error.');
+    }
+  }
+
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     const q = (input?.value || '').trim();
     if (!q) return;
     addMessage('user', q);
     input.value = '';
-    setTimeout(() => addMessage('ai', generateReply(q)), 240);
+    const shouldUseReal = !!getKey() || !!getProxyUrl();
+    if (shouldUseReal) {
+      streamAssistant(q);
+    } else {
+      setTimeout(() => addMessage('ai', generateReply(q)), 240);
+    }
   });
 
   // Enter vs Shift+Enter in textarea
@@ -214,4 +299,43 @@
     const preset = localStorage.getItem('theme_preset');
     if (preset) applyPreset(preset);
   } catch {}
+// AI Settings panel
+  const settingsBtn = document.getElementById('ai-settings');
+  const settingsPanel = document.getElementById('ai-settings-panel');
+  const saveSettingsBtn = document.getElementById('save-ai-settings');
+  const closeSettingsBtn = document.getElementById('close-ai-settings');
+  const keyInput = document.getElementById('openai-key');
+  const modelInput = document.getElementById('openai-model');
+  const proxyInput = document.getElementById('proxy-url');
+
+  function openSettings() {
+    if (keyInput) keyInput.value = getKey();
+    if (modelInput) modelInput.value = getModel();
+    if (proxyInput) proxyInput.value = getProxyUrl();
+    settingsPanel?.removeAttribute('hidden');
+    settingsPanel?.setAttribute('aria-hidden', 'false');
+  }
+  function closeSettings() {
+    settingsPanel?.setAttribute('hidden', '');
+    settingsPanel?.setAttribute('aria-hidden', 'true');
+  }
+
+  settingsBtn?.addEventListener('click', openSettings);
+  closeSettingsBtn?.addEventListener('click', closeSettings);
+  saveSettingsBtn?.addEventListener('click', () => {
+    const k = keyInput?.value?.trim() || '';
+    const m = modelInput?.value?.trim() || 'gpt-4o-mini';
+    const p = proxyInput?.value?.trim() || '';
+    try {
+      if (k) localStorage.setItem('openai_key', k);
+      localStorage.setItem('openai_model', m);
+      localStorage.setItem('openai_proxy', p);
+    } catch {}
+    closeSettings();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSettings();
+  });
+
 })();

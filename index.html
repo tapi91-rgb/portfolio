@@ -134,9 +134,39 @@
             <button type="button" class="chip" data-theme="mono">Mono</button>
             <button id="ai-shuffle" type="button" class="chip">Shuffle</button>
           </div>
+
+          <!-- AI Settings -->
+          <div class="ai-settings-actions">
+            <button id="ai-settings" type="button" class="btn small ghost">AI Settings</button>
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- AI Settings Panel -->
+    <div id="ai-settings-panel" class="qr-panel" hidden aria-hidden="true">
+      <div class="qr-inner panel-fields">
+        <h3 style="margin:0 0 6px;">AI Settings</h3>
+        <p class="ai-hint">Use your own OpenAI API key for live responses. For production, proxy via a server.</p>
+        <div class="field">
+          <label for="openai-key">OpenAI API Key</label>
+          <input id="openai-key" type="password" placeholder="sk-...">
+        </div>
+        <div class="field">
+          <label for="openai-model">Model</label>
+          <input id="openai-model" type="text" value="gpt-4o-mini">
+        </div>
+        <div class="field">
+          <label for="proxy-url">Proxy URL (optional)</label>
+          <input id="proxy-url" type="url" placeholder="https://your-deployment.vercel.app/api/chat">
+        </div>
+        <div class="actions" style="display:flex; gap:10px;">
+          <button id="save-ai-settings" class="btn primary">Save</button>
+          <button id="close-ai-settings" class="btn small ghost">Close</button>
+        </div>
+        <p class="ai-hint">Key is stored locally only. Visitors to a public site should not use a client-side key—use a server proxy.</p>
+      </div>
+    </div>
 
     <!-- Overview -->
     <section id="overview" class="section" aria-labelledby="overview-title">

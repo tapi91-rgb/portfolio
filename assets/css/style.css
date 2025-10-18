@@ -632,6 +632,22 @@ body.menu-open {
   border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
 }
 
+/* Panel field styles (shared with AI Settings) */
+.panel-fields .field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.panel-fields label { color: var(--muted); font-weight: 600; }
+.panel-fields input {
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  padding: 10px 12px;
+  background: color-mix(in oklab, var(--surface), transparent 10%);
+  color: var(--text);
+}
+.ai-settings-actions { margin-top: 6px; }
+
 /* ====== Responsive ====== */
 @media (max-width: 760px) {
   .site-nav { grid-template-columns: auto 36px 36px 36px; }
