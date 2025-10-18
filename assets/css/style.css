@@ -673,7 +673,7 @@ body.menu-open {
   .nav-list {
     display: flex !important;
     position: static !important;
-    opacity: 1 !tant;
+    opacity: 1 !important;
     transform: none !important;
     pointer-events: auto !important;
   }
@@ -772,3 +772,89 @@ body.menu-open {
   box-shadow: var(--shadow-1);
 }
 .fab-item:hover { transform: translateY(-2px); }
+
+/* ====== Text Shimmer (21st.dev inspired) ====== */
+.text-shimmer {
+  background: linear-gradient(90deg,
+    color-mix(in oklab, var(--muted), transparent 0%),
+    var(--text),
+    color-mix(in oklab, var(--muted), transparent 0%)
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmerText 6s linear infinite;
+}
+@keyframes shimmerText {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .text-shimmer { animation: none; }
+}
+
+/* ====== AI Assistant ====== */
+.ai-chat { display: grid; gap: 10px; }
+.ai-messages {
+  display: grid;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.ai-msg .ai-text {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 55%);
+}
+.ai-msg.user .ai-text {
+  background: color-mix(in oklab, var(--surface), transparent 6%);
+}
+.ai-msg.ai .ai-text {
+  background: linear-gradient(180deg,
+    color-mix(in oklab, var(--surface), transparent 10%),
+    color-mix(in oklab, var(--surface), transparent 0%)
+  );
+  box-shadow: var(--shadow-1);
+}
+.ai-form {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.ai-form textarea {
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 60%);
+  padding: 10px 12px;
+  background: color-mix(in oklab, var(--surface), transparent 10%);
+  color: var(--text);
+  resize: vertical;
+}
+.ai-hint { color: var(--muted); font-size: 0.92rem; }
+.ai-quick { margin-top: 4px; }
+.ai-theme { margin-top: -4px; }
+
+/* ====== Theme presets (hero overrides) ====== */
+body.theme-neon .hero-bg {
+  background:
+    radial-gradient(1200px 600px at 15% 20%, color-mix(in oklab, var(--accent), transparent 70%), transparent 60%),
+    radial-gradient(1000px 480px at 85% 10%, color-mix(in oklab, var(--accent-2), transparent 70%), transparent 65%),
+    linear-gradient(180deg, color-mix(in oklab, var(--bg), transparent 0%), var(--bg));
+}
+body.theme-calm .hero-bg {
+  background:
+    radial-gradient(1200px 600px at 15% 20%, color-mix(in oklab, var(--accent), transparent 90%), transparent 60%),
+    radial-gradient(1000px 480px at 85% 10%, color-mix(in oklab, var(--accent-2), transparent 90%), transparent 65%),
+    linear-gradient(180deg, color-mix(in oklab, var(--bg), transparent 0%), var(--bg));
+}
+body.theme-mono .hero-bg {
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--bg), transparent 0%), var(--bg));
+}
+
+@media (max-width: 760px) {
+  .ai-form { grid-template-columns: 36px 1fr auto; }
+}

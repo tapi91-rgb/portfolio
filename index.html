@@ -79,14 +79,14 @@
 
       <div class="container hero-content">
         <h1 class="hero-title">Farid Masood Khan</h1>
-        <p class="hero-subtitle">Researcher • Developer • Engineer — Flutter, Python, Data Science/ML</p>
+        <p class="hero-subtitle text-shimmer">Researcher • Developer • Engineer — Flutter, Python, Data Science/ML</p>
         <div class="cta-group">
           <!-- 21st.dev Magic UI — Rainbow Button inspired -->
           <a href="#projects" class="btn rainbow"><span>View Projects</span></a>
           <a id="cv-link" href="Farid_Masood_CV.pdf" class="btn ghost" download>Download CV</a>
           <div class="hero-links" aria-label="Social links">
             <a class="icon-link" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener" aria-label="GitHub profile">
-              <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.35-1.75-1.35-1.75-1.1-.75.08-.73.08-.73 1.21.09 1.85 1.25 1.85 1.25 1.08 1.85 2.82 1.32 3.51 1.01.11-.79.42-1.32.76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.39 1.25-3.24-.13-.3-.54-1.52.12-3.17 0 0 1-.32 3.28 1.24a11.4 11.4 0 0 1 5.97 0c2.28-1.56 3.28-1.24 3.28-1.24.66 1.65.25 2.87.12 3.17.78.85 1.25 1.93 1.25 3.24 0 4.61-2.82 5.62-5.5 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .5Z"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34 .73-4.04-1.61-4.04-1.61-.55-1.38-1.35-1.75-1.35-1.75-1.1-.75.08-.73.08-.73 1.21 .09 1.85 1.25 1.85 1.25 1.08 1.85 2.82 1.32 3.51 1.01.11-.79 .42-1.32 .76-1.63-2.66-.3-5.47-1.33-5.47-5.93 0-1.31 .47-2.39 1.25-3.24-.13-.3-.54-1.52 .12-3.17 0 0 1-.32 3.28 1.24a11.4 11.4 0 0 1 5.97 0c2.28-1.56 3.28-1.24 3.28-1.24 .66 1.65 .25 2.87 .12 3.17 .78 .85 1.25 1.93 1.25 3.24 0 4.61-2.82 5.62-5.5 5.92 .43 .37 .82 1.1 .82 2.22v3.29c0 .32 .21 .7 .82 .58A12 12 0 0 0 12 .5Z"/></svg>
             </a>
             <a class="icon-link" href="mailto:faridmasoodofficial@gmail.com" aria-label="Email Farid">
               <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/></svg>
@@ -102,19 +102,37 @@
       </div>
     </section>
 
-    <!-- AI Assistant (21st.dev Prompt Box inspired) -->
+    <!-- AI Assistant (21st.dev Prompt Box inspired, advanced) -->
     <section id="ai" class="section" aria-labelledby="ai-title">
       <div class="container">
         <h2 id="ai-title">AI Assistant</h2>
         <div class="ai-chat card">
           <div id="ai-messages" class="ai-messages" aria-live="polite"></div>
+
+          <!-- Quick actions -->
+          <div class="ai-quick chip-group" aria-label="AI quick actions">
+            <button type="button" class="chip" data-prompt="Help me write an email about a project kickoff for a Flutter app.">Help me write an email</button>
+            <button type="button" class="chip" data-prompt="Explain TF-IDF and Linear SVM in simple terms.">Explain concept</button>
+            <button type="button" class="chip" data-prompt="Plan my day with focus blocks for coding, reading, and exercise.">Plan my day</button>
+            <button type="button" class="chip" data-prompt="Generate a project plan for a small IoT IDS baseline.">Generate project plan</button>
+            <button type="button" class="chip" data-prompt="Suggest a strong ML baseline for tabular classification with evaluation.">Suggest ML baseline</button>
+          </div>
+
           <form id="ai-form" class="ai-form" autocomplete="off">
-            <input id="ai-input" type="text" placeholder="Ask anything…" />
+            <button id="ai-voice" type="button" class="icon-btn" aria-label="Voice input" title="Voice input">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path fill="currentColor" d="M19 10v2a7 7 0 0 1-14 0v-2"/><path fill="currentColor" d="M12 19v3"/></svg>
+            </button>
+            <textarea id="ai-input" rows="3" placeholder="Ask anything…"></textarea>
             <button type="submit" class="btn primary ai-send">Send</button>
           </form>
           <p class="ai-hint">Press Enter to send, Shift + Enter for new line</p>
-          <div class="actions">
-            <button id="ai-shuffle" type="button" class="btn small ghost">Shuffle theme</button>
+
+          <!-- Theme presets -->
+          <div class="ai-theme chip-group" aria-label="AI theme presets">
+            <button type="button" class="chip" data-theme="neon">Neon</button>
+            <button type="button" class="chip" data-theme="calm">Calm</button>
+            <button type="button" class="chip" data-theme="mono">Mono</button>
+            <button id="ai-shuffle" type="button" class="chip">Shuffle</button>
           </div>
         </div>
       </div>
