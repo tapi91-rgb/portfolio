@@ -152,6 +152,33 @@
     window.scrollTo({ top: 0, behavior: motionOK ? 'smooth' : 'auto' });
   });
 
+  // Floating Action Menu (21st.dev inspired)
+  const fab = document.getElementById('fab');
+  const fabToggle = document.getElementById('fab-toggle');
+  const fabList = document.getElementById('fab-list');
+
+  function setFab(open) {
+    fab?.classList.toggle('open', !!open);
+    fabToggle?.setAttribute('aria-expanded', String(!!open));
+    fabList?.setAttribute('aria-hidden', String(!open));
+  }
+
+  fabToggle?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const next = !fab?.classList.contains('open');
+    setFab(next);
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    const within = (fab && e.target instanceof Element) ? fab.contains(e.target) : false;
+    if (!within) setFab(false);
+  });
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setFab(false);
+  });
+
   // Contact form
   const form = document.getElementById('contact-form');
   const contactStatus = document.getElementById('contact-status');

@@ -59,6 +59,7 @@
       </button>
       <ul class="nav-list" id="primary-nav">
         <li><a href="#overview" class="nav-link">Overview</a></li>
+        <li><a href="#ai" class="nav-link">AI</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#focus" class="nav-link">Focus</a></li>
         <li><a href="#skills" class="nav-link">Skills</a></li>
@@ -80,7 +81,8 @@
         <h1 class="hero-title">Farid Masood Khan</h1>
         <p class="hero-subtitle">Researcher • Developer • Engineer — Flutter, Python, Data Science/ML</p>
         <div class="cta-group">
-          <a href="#projects" class="btn primary">View Projects</a>
+          <!-- 21st.dev Magic UI — Rainbow Button inspired -->
+          <a href="#projects" class="btn rainbow"><span>View Projects</span></a>
           <a id="cv-link" href="Farid_Masood_CV.pdf" class="btn ghost" download>Download CV</a>
           <div class="hero-links" aria-label="Social links">
             <a class="icon-link" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener" aria-label="GitHub profile">
@@ -95,6 +97,24 @@
             <a class="icon-link" href="https://x.com/FaridMasoodKhan" target="_blank" rel="noopener" aria-label="X (Twitter) profile">
               <span aria-hidden="true" style="font-weight:700">X</span>
             </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Assistant (21st.dev Prompt Box inspired) -->
+    <section id="ai" class="section" aria-labelledby="ai-title">
+      <div class="container">
+        <h2 id="ai-title">AI Assistant</h2>
+        <div class="ai-chat card">
+          <div id="ai-messages" class="ai-messages" aria-live="polite"></div>
+          <form id="ai-form" class="ai-form" autocomplete="off">
+            <input id="ai-input" type="text" placeholder="Ask anything…" />
+            <button type="submit" class="btn primary ai-send">Send</button>
+          </form>
+          <p class="ai-hint">Press Enter to send, Shift + Enter for new line</p>
+          <div class="actions">
+            <button id="ai-shuffle" type="button" class="btn small ghost">Shuffle theme</button>
           </div>
         </div>
       </div>
@@ -494,7 +514,19 @@
     </div>
   </footer>
 
-  
+  <!-- Quick Actions (21st.dev Floating Action Menu inspired) -->
+  <div id="fab" class="fab" aria-label="Quick actions">
+    <button id="fab-toggle" class="fab-toggle" aria-expanded="false" aria-label="Open quick actions">
+      <span class="visually-hidden">Open quick actions</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 5a1 1 0 0 1 1 1v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5H6a1 1 0 1 1 0-2h5V6a1 1 0 0 1 1-1Z"/></svg>
+    </button>
+    <ul id="fab-list" class="fab-list" aria-hidden="true">
+      <li><a class="fab-item" href="#projects">Projects</a></li>
+      <li><a class="fab-item" href="Farid_Masood_CV.pdf" download>Download CV</a></li>
+      <li><a class="fab-item" href="mailto:faridmasoodofficial@gmail.com">Email</a></li>
+      <li><a class="fab-item" href="https://github.com/Farid-Masood-Khan" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </div>
 
   <!-- Back to top -->
   <button id="back-to-top" class="back-top" aria-label="Back to top">
@@ -502,5 +534,7 @@
   </button>
 
   <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/splash-cursor.js" defer></script>
+  <script src="assets/js/ai.js" defer></script>
 </body>
 </html>

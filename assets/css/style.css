@@ -97,7 +97,7 @@ a:hover { text-decoration-color: var(--accent); }
 
 .site-nav {
   display: grid;
-  grid-template-columns: auto 40px 40px 1fr;
+  grid-template-columns: auto 40px 40px 40px 1fr;
   align-items: center;
   gap: 16px;
   width: var(--container);
@@ -634,7 +634,7 @@ body.menu-open {
 
 /* ====== Responsive ====== */
 @media (max-width: 760px) {
-  .site-nav { grid-template-columns: auto 36px 36px; }
+  .site-nav { grid-template-columns: auto 36px 36px 36px; }
   .contact-grid { grid-template-columns: 1fr; }
 
   /* Collapsible nav panel (mobile) */
@@ -669,11 +669,11 @@ body.menu-open {
 @media (min-width: 761px) {
   #menu-toggle { display: none; }
   .nav-backdrop { display: none; }
-  .site-nav { grid-template-columns: auto 36px 1fr; }
+  .site-nav { grid-template-columns: auto 36px 36px 1fr; }
   .nav-list {
     display: flex !important;
     position: static !important;
-    opacity: 1 !important;
+    opacity: 1 !tant;
     transform: none !important;
     pointer-events: auto !important;
   }
@@ -688,3 +688,87 @@ body.menu-open {
   .nav-link::after { transition: none !important; }
   .skeleton { animation: none; }
 }
+
+/* ====== 21st.dev Components ====== */
+/* Magic UI — Rainbow Button (inspired) */
+.btn.rainbow {
+  padding: 2px;
+  border-radius: 999px;
+  border: none;
+  background: conic-gradient(from 0deg, #ff0080, #ffbf00, #00ffd1, #7a00ff, #ff0080);
+  box-shadow: 0 10px 20px color-mix(in oklab, var(--accent), transparent 85%);
+}
+.btn.rainbow span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  background: color-mix(in oklab, var(--surface), transparent 8%);
+  color: var(--text);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 45%);
+  backdrop-filter: saturate(130%) blur(6px);
+}
+.btn.rainbow:hover { transform: translateY(-2px); }
+.btn.rainbow:hover span { box-shadow: var(--shadow-1); }
+
+/* Splash Cursor canvas overlay (21st.dev Splash Cursor inspired) */
+.splash-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+/* Floating Action Menu (21st.dev Floating Action Menu inspired) */
+.fab {
+  position: fixed;
+  right: 18px;
+  bottom: 70px;
+  z-index: 45;
+}
+.fab-toggle {
+  display: grid;
+  place-items: center;
+  width: 46px; height: 46px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 55%);
+  background: color-mix(in oklab, var(--surface), transparent 10%);
+  color: var(--text);
+  box-shadow: var(--shadow-1);
+  cursor: pointer;
+  transition: transform var(--speed-1);
+}
+.fab-toggle:hover { transform: translateY(-2px); }
+
+.fab-list {
+  position: absolute;
+  right: 0;
+  bottom: 56px;
+  display: grid;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity var(--speed-1), transform var(--speed-1);
+}
+.fab.open .fab-list {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.fab-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  background: color-mix(in oklab, var(--surface), transparent 8%);
+  border: 1px solid color-mix(in oklab, var(--muted), transparent 55%);
+  color: var(--text);
+  box-shadow: var(--shadow-1);
+}
+.fab-item:hover { transform: translateY(-2px); }
