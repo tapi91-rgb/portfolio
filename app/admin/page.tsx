@@ -13,10 +13,6 @@ type SiteMeta = typeof siteMetaSeed;
 const DEMO_EMAIL = 'admin@local';
 const DEMO_PASS = 'admin123';
 
-export const metadata = {
-  robots: { index: false, follow: false }
-};
-
 function useUndoStack<T>(initial: T, limit = 5) {
   const [state, setState] = useState<T>(initial);
   const stackRef = useRef<T[]>([]);
