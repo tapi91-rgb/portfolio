@@ -57,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="dark">
       <head>
         <ThemeScript />
+        <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
       <body className="min-h-screen">
         <a href="#content" className="skip-link">Skip to content</a>

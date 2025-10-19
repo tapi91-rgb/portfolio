@@ -2,40 +2,39 @@
 
 import { useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+type ThemeChoice = 'system' | 'light' | 'dark';
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<ThemeChoice>('system');
 
   useEffect(() => {
     try {
-      const saved = (localStorage.getItem('farid.theme') as Theme | null);
-      if (saved === 'light' || saved === 'dark') {
-        setTheme(saved);
-        document.documentElement.classList.toggle('dark', saved === 'dark');
-      } else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setTheme(prefersDark ? 'dark' : 'light');
-        document.documentElement.classList.toggle('dark', prefersDark);
+      const saved = localStorage.getItem('farid.theme');
+      if (saved === 'dark' || saved === 'light' || saved === 'system') {
+        setTheme(saved as ThemeChoice);
       }
     } catch {}
   }, []);
 
-  function toggle() {
-    const next: Theme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    try { localStorage.setItem('farid.theme', next); } catch {}
-    document.documentElement.classList.toggle('dark', next === 'dark');
-  }
+  useEffect(() => {
+    const root = document.documentElement;
+    const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const effectiveDark = theme === 'system' ? sysDark : theme === 'dark';
+    root.classList.toggle('dark', effectiveDark);
+    try { localStorage.setItem('farid.theme', theme); } catch {}
+  }, [theme]);
 
   return (
-    <button
-      onClick={toggle}
-      aria-label="Toggle theme"
-      className="rounded-lg border border-neutral-800 px-2 py-1 text-sm hover:border-primary"
-      title="Toggle theme"
+    <select
+      aria-label="Theme"
+      className="rounded-lg bg-neutral-900 border border-neutral-800 px-2 py-1 text-sm"
+      value={theme}
+      onChange={(e) => setTheme(e.target.value as ThemeChoice)}
+      title="Theme"
     >
-      {theme === 'dark' ? '🌙' : '☀️'}
-    </button>
+      <option value="system">System</option>
+      <option value="dark">Dark</option>
+      <option value="light">Light</option>
+    </select>
   );
 }

@@ -10,7 +10,7 @@
     "validate:content": "node scripts/validate-content.mjs",
     "prebuild": "npm run validate:content",
     "build": "next build",
-    "preexport": "node scripts/generate-sitemap.mjs",
+    "preexport": "node scripts/generate-sitemap.mjs && node scripts/generate-rss.mjs",
     "export": "next export"
   },
   "dependencies": {

@@ -8,6 +8,7 @@ Highlights:
 - Blog, Projects, CV viewer, Hire form (stores to localStorage + mailto)
 - Local Admin with CRUD + import/export, Zod validation and autosave
 - SEO-ready metadata + JSON-LD, `robots.txt`, generated `sitemap.xml`
+- RSS feed generated at `public/feed.xml` (linked in `<head>`)
 
 ## Quick start
 
@@ -45,11 +46,13 @@ Highlights:
   - site-meta.json
 - public/
   - robots.txt
+  - feed.xml (generated)
   - cv/README.txt (put `Farid_Masood_CV.pdf` here)
   - og/ (create `og-image.png` here)
 - scripts/
   - validate-content.mjs (Zod content check)
   - generate-sitemap.mjs (creates public/sitemap.xml excluding admin, draft posts)
+  - generate-rss.mjs (creates public/feed.xml from published posts)
 
 ## Editing content (local JSON)
 
@@ -97,10 +100,11 @@ LocalStorage keys:
 - JSON-LD:
   - Person on Home/About (see lib/structuredData.ts and components/JsonLd.tsx).
   - Article + Breadcrumb on Blog posts.
-- Robots and Sitemap:
+- Robots, Sitemap, and RSS:
   - `public/robots.txt` blocks `/admin*`.
   - `scripts/generate-sitemap.mjs` creates `public/sitemap.xml` excluding admin and draft posts.
-  - Set `SITE_BASE_URL=https://yourdomain.com` when generating the sitemap for production URLs.
+  - `scripts/generate-rss.mjs` creates `public/feed.xml` (RSS 2.0). A `<link rel="alternate" type="application/rss+xml">` is added in layout.
+  - Set `SITE_BASE_URL=https://yourdomain.com` when generating the sitemap and RSS for production URLs.
 
 ## Accessibility
 
@@ -117,7 +121,7 @@ LocalStorage keys:
 
 ## Theming and motion
 
-- Theme toggle persists in localStorage and respects system preference.
+- Theme toggle supports System/Dark/Light; persists in localStorage and respects system preference.
 - Animations are mild and respect `prefers-reduced-motion`.
 
 ## Images
