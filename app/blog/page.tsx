@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useDebouncedValue } from '@/lib/useDebouncedValue';
 import { paginate } from '@/lib/paginate';
 import { LS_KEYS, readLocal } from '@/lib/storage';
+import { useSearchParams } from 'next/navigation';
 
 const PER_PAGE = 6;
 
@@ -28,6 +29,19 @@ export default function BlogPage() {
     const local = readLocal<BlogRecord[]>(LS_KEYS.blog);
     if (local && Array.isArray(local)) setAll(local as any);
   }, []);
+
+  // Support ?preview=1 to toggle drafts preview
+  const sp = useSearchParams();
+  useEffect(() => {
+    const pv = sp.get('preview');
+    if (pv === '1') {
+      setPreview(true);
+      try { localStorage.setItem('farid.blog.preview', '1'); } catch {}
+    } else if (pv === '0') {
+      setPreview(false);
+      try { localStorage.setItem('farid.blog.preview', '0'); } catch {}
+    }
+  }, [sp]);
 
   const qDebounced = useDebouncedValue(q, 250);
 

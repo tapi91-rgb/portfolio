@@ -9,6 +9,7 @@ import SortMenu from '@/components/SortMenu';
 import { useDebouncedValue } from '@/lib/useDebouncedValue';
 import { LS_KEYS, readLocal } from '@/lib/storage';
 import Markdown from '@/components/Markdown';
+import Modal from '@/components/Modal';
 
 export default function ProjectsPage() {
   const [q, setQ] = useState('');
@@ -37,6 +38,8 @@ export default function ProjectsPage() {
     } // relevance = keep search order
     return copy;
   }, [searched, sort]);
+
+  const active = results.find(r => r.id === openReadme);
 
   return (
     <section className="space-y-6">
@@ -88,21 +91,26 @@ export default function ProjectsPage() {
             {pr.readme && (
               <div className="mt-3">
                 <button
-                  onClick={() => setOpenReadme(openReadme === pr.id ? null : pr.id)}
+                  onClick={() => setOpenReadme(pr.id)}
                   className="text-xs rounded-lg border border-neutral-800 px-2 py-1 hover:border-primary"
                 >
-                  {openReadme === pr.id ? 'Hide README' : 'Preview README'}
+                  Preview README
                 </button>
-                {openReadme === pr.id && (
-                  <div className="mt-3 rounded-xl border border-neutral-800 p-3 bg-neutral-950/60">
-                    <Markdown content={pr.readme} />
-                  </div>
-                )}
               </div>
             )}
           </article>
         ))}
       </div>
+
+      <Modal
+        open={openReadme !== null && !!active}
+        onClose={() => setOpenReadme(null)}
+        title={active?.title ? `${active.title} — README` : 'README'}
+      >
+        <div className="md-prose">
+          <Markdown content={active?.readme || 'No README provided.'} />
+        </div>
+      </Modal>
     </section>
   );
 }

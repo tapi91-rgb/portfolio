@@ -1,5 +1,9 @@
 'use client';
 
+import JsonLd from '@/components/JsonLd';
+import siteMeta from '@/data/site-meta.json';
+import { buildPersonLd } from '@/lib/structuredData';
+
 export default function AboutPage() {
   const timeline = [
     { year: '2025', title: 'Data Science Intern', detail: 'Built and evaluated small CNN classifiers for CPU inference; data pipelines and experiments.' },
@@ -10,8 +14,23 @@ export default function AboutPage() {
     'React.js', 'Node.js', 'SQL', 'AI App Development'
   ];
 
+  const personLd = buildPersonLd({
+    name: 'Muhammad Farid Masood Khan',
+    description: (siteMeta as any).description,
+    email: 'faridmasood.khan@yahoo.com',
+    url: ((siteMeta as any).baseUrl || 'https://example.com').replace(/\/$/, ''),
+    image: (siteMeta as any).ogImage,
+    sameAs: [
+      'https://github.com/Farid-Masood-Khan',
+      'https://www.linkedin.com/in/leishu/'
+    ],
+    locality: 'Sahiwal',
+    country: 'Pakistan'
+  });
+
   return (
     <section className="space-y-8">
+      <JsonLd data={personLd} />
       <header>
         <h1 className="text-4xl font-extrabold">About</h1>
         <p className="mt-2 text-neutral-300 max-w-3xl">

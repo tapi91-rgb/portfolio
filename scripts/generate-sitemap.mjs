@@ -8,27 +8,27 @@ mkdirSync(outDir, { recursive: true });
 
 const routes = ['/', '/about', '/projects', '/blog', '/cv', '/hire'];
 
+// Blog content
+const blogArr = JSON.parse(readFileSync(resolve('data/blog.json'), 'utf8'));
+const published = blogArr.filter((p) => p.published !== false);
+
 // Blog posts (published only)
-const posts = JSON.parse(readFileSync(resolve('data/blog.json'), 'utf8'))
-  .filter(p => p.published !== false)
-  .map(p => `/blog/${p.slug}`);
+const postRoutes = published.map((p) => `/blog/${p.slug}`);
 
 // Blog pagination (6 per page)
 const PER_PAGE = 6;
-const pagesCount = Math.max(1, Math.ceil(JSON.parse(readFileSync(resolve('data/blog.json'), 'utf8').toString())
-  .filter(p => p.published !== false).length / PER_PAGE));
-const paged = Array.from({ length: pagesCount }, (_, i) => `/blog/page/${i + 1}`);
+const pagesCount = Math.max(1, Math.ceil(published.length / PER_PAGE));
+const pagedRoutes = Array.from({ length: pagesCount }, (_, i) => `/blog/page/${i + 1}`);
 
 // Tags
-const all = JSON.parse(readFileSync(resolve('data/blog.json'), 'utf8'));
-const tags = Array.from(new Set(all.filter(p => p.published !== false).flatMap(p => p.tags || [])));
-const tagRoutes = tags.map(t => `/blog/tag/${encodeURIComponent(t)}`);
+const tags = Array.from(new Set(published.flatMap((p) => p.tags || [])));
+const tagRoutes = tags.map((t) => `/blog/tag/${encodeURIComponent(t)}`);
 
-const urls = [...routes, ...posts, ...paged, ...tagRoutes];
+const urls = [...routes, ...postRoutes, ...pagedRoutes, ...tagRoutes];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(u => `  <url><loc>${baseUrl}${u}</loc></url>`).join('\n')}
+${urls.map((u) => `  <url><loc>${baseUrl}${u}</loc></url>`).join('\n')}
 </urlset>
 `;
 

@@ -1,5 +1,3 @@
-'use client';
-
 import posts from '@/data/blog.json';
 import type { BlogRecord } from '@/lib/search';
 import Link from 'next/link';
